@@ -1,30 +1,38 @@
-public abstract class Container(double cargoWeight, double height, double weight, double depth, double carryingCapacity, string containerType)
+namespace ContainerManager.Containers
 {
-    public double CargoWeight {get; protected set;} = cargoWeight;
-    public double Height {get;} = height;
-    public double Weight {get;} = weight;
-    public double Depth {get;} = depth;
-    public double CarryingCapacity {get;} = carryingCapacity;
-    public string SerialNumber {get;} = "KON" + containerType;
-
-    public static int Count
+    public abstract class Container(double cargoWeight, double height, double weight, double depth, double carryingCapacity, string containerType)
     {
-        get{return ++_count;}
-    }
-    private static int _count = 0;
+        public double CargoWeight {get; protected set;} = cargoWeight;
+        public double Height {get;} = height;
+        public double Weight {get;} = weight;
+        public double Depth {get;} = depth;
+        public double CarryingCapacity {get;} = carryingCapacity;
+        public string SerialNumber {get;} = "KON" + containerType;
 
-    public virtual void Empty()
-    {
-        CargoWeight = 0;
-    }
-
-    public virtual void Load(double mass)
-    {
-        if(CargoWeight > CarryingCapacity)
+        public static int Count
         {
-            throw new OverFillException();
+            get{return ++_count;}
         }
-        CargoWeight += mass;
+        private static int _count = 0;
+
+        public virtual void Empty()
+        {
+            CargoWeight = 0;
+        }
+
+        public virtual void Load(double mass)
+        {
+            if(CargoWeight > CarryingCapacity)
+            {
+                throw new OverFillException();
+            }
+            CargoWeight += mass;
+        }
+
+        public override string ToString()
+        {
+            return "Container number: " + SerialNumber;
+        }
+
     }
-    
 }

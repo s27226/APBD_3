@@ -1,30 +1,36 @@
-public class CoolingContainer(double cargoWeight, double height, double weight, double depth, double carryingCapacity, string productType, int temperature) : Container(cargoWeight,height,weight,depth,carryingCapacity,_containerType + Count)
+namespace ContainerManager.Containers
 {
-    public string ProductType
+    public class CoolingContainer(double cargoWeight, double height, double weight, double depth, double carryingCapacity, string productType, int temperature) : Container(cargoWeight,height,weight,depth,carryingCapacity,_containerType + Count)
     {
-        get {return _productType;}
-        set {Empty(); _productType = value;}
-    }
-    private string _productType = productType;
-
-    public int Temperature
-    {
-        get {return _temperature;}
-        set
+        public string ProductType
         {
-            if(ProductTypes.ProductTypesMap.ContainsKey(ProductType) && value >= ProductTypes.ProductTypesMap[ProductType])
+            get {return _productType;}
+            set {if(CargoWeight == 0) _productType = value;}
+        }
+        private string _productType = productType;
+
+        public int Temperature
+        {
+            get {return _temperature;}
+            set
             {
-                _temperature = value;
-            }
-        } 
+                if(ProductTypes.ProductTypesMap.ContainsKey(ProductType) && value >= ProductTypes.ProductTypesMap[ProductType])
+                {
+                    _temperature = value;
+                }
+            } 
+        }
+        private int _temperature = temperature;
+        private const string _containerType = "-C-";
+        public override string ToString()
+        {
+            return base.ToString() + "\nProductType: " + ProductType + "\nTemperature: " + Temperature;
+        }
     }
-    private int _temperature = temperature;
-    private const string _containerType = "-C-";
-}
 
 public class ProductTypes
 {
-    public static readonly Dictionary<string,double> ProductTypesMap = [];
+    public static readonly Dictionary<string,double> ProductTypesMap = new Dictionary<string, double>{};
     static ProductTypes()
     {
         ProductTypesMap.Add("Bananas", 13.3);
@@ -39,4 +45,5 @@ public class ProductTypes
         ProductTypesMap.Add("Eggs", 19);
     }
 
+}
 }
